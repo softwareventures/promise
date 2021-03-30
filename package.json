@@ -21,6 +21,7 @@
     "semantic-release": "semantic-release",
     "test": "ava"
   },
+  "sideEffects": false,
   "dependencies": {
     "tslib": "2.1.0"
   },
