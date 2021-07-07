@@ -4,10 +4,10 @@
   "version": "0.0.0-development",
   "description": "Pure functional utilities for Promises",
   "keywords": [
-    "lambda",
+    "Promise",
     "TypeScript",
     "functional",
-    "Promise"
+    "lambda"
   ],
   "author": "Daniel Cassidy <mail@danielcassidy.me.uk>",
   "homepage": "https://github.com/softwareventures/promise",
