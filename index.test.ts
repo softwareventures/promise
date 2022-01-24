@@ -21,7 +21,7 @@ test("allAsync", async t => {
 });
 
 test("sequenceAsync", async t => {
-    const a: number[] = [];
+    let a: number[] = [];
     const b = async (): Promise<1> =>
         Promise.resolve()
             .then(() => a.push(1))
@@ -30,9 +30,25 @@ test("sequenceAsync", async t => {
         a.push(2);
         return 2 as const;
     };
-    return sequenceAsync([b, c] as const).then(([b, c]: readonly [1, 2]) => {
-        t.deepEqual(a, [1, 2]);
+
+    await sequenceAsync([b, c] as const).then(([b, c]: readonly [1, 2]) => {
         t.is(b, 1);
         t.is(c, 2);
     });
+
+    t.deepEqual(a, [1, 2]);
+
+    a = [];
+
+    function* generate(): Iterable<() => Promise<number>> {
+        yield b;
+        yield c;
+    }
+
+    await sequenceAsync(generate()).then(([b, c]) => {
+        t.is(b, 1);
+        t.is(c, 2);
+    });
+
+    t.deepEqual(a, [1, 2]);
 });
