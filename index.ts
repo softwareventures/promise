@@ -13,3 +13,19 @@ type AllAsync<T extends Iterable<unknown>> = T extends readonly unknown[]
 export function allAsync<T extends Iterable<unknown>>(values: T): AllAsync<T> {
     return Promise.all(values) as unknown as AllAsync<T>;
 }
+
+type SequenceAsync<T extends Iterable<() => unknown>> = T extends readonly unknown[]
+    ? {[K in keyof T]: T[K] extends () => unknown ? AsyncReturnType<T[K]> : T[K]}
+    : T extends Iterable<() => infer U | PromiseLike<infer U>>
+    ? U[]
+    : never;
+
+export async function sequenceAsync<T extends Iterable<() => unknown>>(
+    actions: T
+): Promise<SequenceAsync<T>> {
+    const result = [];
+    for (const action of actions) {
+        result.push(await action());
+    }
+    return result as SequenceAsync<T>;
+}
