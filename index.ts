@@ -29,3 +29,9 @@ export async function sequenceAsync<T extends Iterable<() => unknown>>(
     }
     return result as SequenceAsync<T>;
 }
+
+export function applyAsync<TA, TResult>(
+    promise: Promise<(a: TA) => TResult>
+): (a: TA) => Promise<TResult> {
+    return async a => promise.then(f => f(a));
+}

@@ -1,5 +1,5 @@
 import test from "ava";
-import {allAsync, sequenceAsync} from "./index";
+import {allAsync, applyAsync, sequenceAsync} from "./index";
 
 test("allAsync", async t => {
     const a = Promise.resolve(1 as const);
@@ -51,4 +51,9 @@ test("sequenceAsync", async t => {
     });
 
     t.deepEqual(a, [1, 2]);
+});
+
+test("applyAsync", async t => {
+    const f = Promise.resolve((a: number) => a + 1);
+    t.is(await applyAsync(f)(2), 3);
 });
