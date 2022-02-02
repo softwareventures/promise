@@ -1,6 +1,6 @@
 export type UnwrapPromiseLike<T> = T extends PromiseLike<infer U> ? U : T;
 
-export type AsyncReturnType<T> = T extends (...args: any[]) => infer R | PromiseLike<infer R>
+export type AsyncReturnType<T> = T extends (...args: unknown[]) => infer R | PromiseLike<infer R>
     ? R
     : never;
 
